@@ -9,6 +9,7 @@ boost related:
 [boost source download](https://dl.bintray.com/boostorg/release/1.69.0/source/)  
 [boost official site](http://www.boost.org/)  
 
+<!--more -->
 #### 线程并发相关资料:  
 [Sequencing and the concurrency memory model](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2052.htm)  
 [singleton obj in multithread env](https://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf)  
@@ -22,31 +23,43 @@ templates:
 [The Forwarding Problem: Arguments](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2002/n1385.htm)  
 
 
-<!--more -->
-
 #### some english words:  
+adept: 熟练的 adj; 内行 n;  
+agnostic: 不可知  
+arithmetic: 算法，算术  
+arbitrary : 任意的  
+asymptotic: 渐进的  
+axiom: 明理， 道理 n;   
+bandwagon: 流行，时尚 n;  
+burden: 负担，责任 n;  
 concurrency: 并发性  
 clause: 条款，法则；子句
 consistent: 一致性  
 cache coherence: 高速缓存一致性  
 coherence： 一致性  
-arbitrary : 任意的  
 compromise : 妥协，折中  
-agnostic: 不可知  
-Obstacles: 障碍  
-impose: 利用，欺骗  
-push around: 任由摆布  
+concrete : 混凝土的，实际的，具体的  
+contradictions: 矛盾  
+critical thinking: 批判性思维  
 entity: 实体  
 distinction: 区别  
 eliminatio: 消除; 排除  
-idiom: 习语；成语  
-polymorphically : 动态地  
 elaborate : 精心制作的，精巧的  
 Fallacy: 谬论  
-concrete : 混凝土的，实际的，具体的  
-yield: 屈从，让步，出产  
+flame: 火焰 n;  
+hood: 头巾，覆盖 n;  
+idiom: 习语；成语  
+impose: 利用，欺骗  
+impede: 妨碍，阻碍  
+inherently: 内在地  
+literally: 字面地，逐字地，不夸张地 adv;  
+mundane: 世俗的， 平凡的 adj;  
 nevertheless : 不过  
-arithmetic: 算法，算术  
+Obstacles: 障碍  
+push around: 任由摆布  
+polymorphically : 动态地  
+suffice: 使满足，足够用  
+yield: 屈从，让步，出产  
 
 
 
