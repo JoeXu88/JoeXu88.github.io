@@ -4,7 +4,7 @@ menu:
   Home: /
   #Notes: /tags/notes/
   Archives: /archives
-  #分类: /categories
+  #Categories: /category
 
 # SubNav
 subnav:
@@ -124,6 +124,7 @@ smart_menu:
 friends:
   MyCSDN: https://blog.csdn.net/xubuwei
   coolshell: https://coolshell.cn/
+  pongba: http://mindhacks.cn
   极客时间: https://time.geekbang.org/
   cambridgeDictionary: https://dictionary.cambridge.org/
   dictionary: https://www.dictionary.com/

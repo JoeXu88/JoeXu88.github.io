@@ -54,6 +54,7 @@ impede: 妨碍，阻碍
 inherently: 内在地  
 literally: 字面地，逐字地，不夸张地 adv;  
 mundane: 世俗的， 平凡的 adj;  
+mortal: 凡人，人类 n; 凡人的，致死的 adj;  
 nevertheless : 不过  
 Obstacles: 障碍  
 push around: 任由摆布  
