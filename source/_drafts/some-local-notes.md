@@ -55,6 +55,7 @@ idiom: 习语；成语
 impose: 利用，欺骗  
 impede: 妨碍，阻碍  
 inherently: 内在地  
+knack: 本领，窍门 n;  
 literally: 字面地，逐字地，不夸张地 adv;  
 mundane: 世俗的， 平凡的 adj;  
 mortal: 凡人，人类 n; 凡人的，致死的 adj;  
