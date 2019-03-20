@@ -63,7 +63,7 @@ X foo(int x, int y)
     return X(x,y);  //return ctor directly, will be more efficient, no more need to construct and then call copy contruct.
 }
 ```
-一般而言，假如函数多有返回对象值的情况，那么定义一个拷贝构造函数会比较合理和必要，因为会出发NRV优化。  
+一般而言，假如函数多有返回对象值的情况，那么定义一个拷贝构造函数会比较合理和必要，因为会触发NRV优化。  
 
 * 构造函数初始化列表  
 初始化列表主要是为了提高效率来设计的，如果不在初始化列表里面进行初始化成员，尤其是类成员，那么将会先产生临时对象然后在构造函数实现里面加入赋值拷贝构造函数调用，效率大打折扣。但是要注意的是初始化列表的顺序其实是类定义中的顺序，而不是列表里面声明的顺序，因此要注意他们初始化的可能性错误。并且初始化列表的操作是会在显示的用户定义代码之前的，也就是构造函数内容是在初始化列表操作之后的。    
@@ -174,3 +174,162 @@ yield: 屈从，让步，出产  vt,vi; 产量 n;
 地址空间：
 虚拟地址其实是逻辑地址，32bit 系统是从0 ~ 4G的分配，但并不是直接与物理地址挂钩，需要MMAP 的方式映射到实际物理地址，而这个映射实际上是页表一对一映射的过程（准确的说是页和页帧映射，页帧是对物理地址的分割）。以堆（malloc）的方式来说，首先malloc 一个堆内存，那么是分配到一个逻辑地址，这个地址由页号和偏移量组成。所谓的页号是内存分配中的基本操作单位，也就是将4G 内存分隔成多个页来操作分配以提高效率，而偏移量是实际数据内存大小，也就是能存多少数据。当分配一个堆内存后并不会立即挂钩物理地址，而是第一次使用这块内存时发现这个页没有挂钩到实际物理地址的时候，以缺页的方式陷入到内核中重新分配挂钩物理内存页帧。  
 物理地址则好说，就是实际物理内存的地址空间。  
+
+
+#### webrtc  
+signal server example: https://www.tutorialspoint.com/webrtc/webrtc_signaling.htm
+```js
+/* node js example server code */
+//require our websocket library 
+var WebSocketServer = require('ws').Server;
+ 
+//creating a websocket server at port 9090 
+var wss = new WebSocketServer({port: 9090}); 
+
+//all connected to the server users 
+var users = {};
+  
+//when a user connects to our sever 
+wss.on('connection', function(connection) {
+  
+   console.log("User connected");
+	
+   //when server gets a message from a connected user
+   connection.on('message', function(message) { 
+	
+      var data; 
+      //accepting only JSON messages 
+      try {
+         data = JSON.parse(message); 
+      } catch (e) { 
+         console.log("Invalid JSON"); 
+         data = {}; 
+      } 
+		
+      //switching type of the user message 
+      switch (data.type) { 
+         //when a user tries to login 
+			
+         case "login": 
+            console.log("User logged", data.name); 
+				
+            //if anyone is logged in with this username then refuse 
+            if(users[data.name]) { 
+               sendTo(connection, { 
+                  type: "login", 
+                  success: false 
+               }); 
+            } else { 
+               //save user connection on the server 
+               users[data.name] = connection; 
+               connection.name = data.name; 
+					
+               sendTo(connection, { 
+                  type: "login", 
+                  success: true 
+               }); 
+            } 
+				
+            break; 
+				
+         case "offer": 
+            //for ex. UserA wants to call UserB 
+            console.log("Sending offer to: ", data.name); 
+				
+            //if UserB exists then send him offer details 
+            var conn = users[data.name];
+				
+            if(conn != null) { 
+               //setting that UserA connected with UserB 
+               connection.otherName = data.name; 
+					
+               sendTo(conn, { 
+                  type: "offer", 
+                  offer: data.offer, 
+                  name: connection.name 
+               }); 
+            } 
+				
+            break;  
+				
+         case "answer": 
+            console.log("Sending answer to: ", data.name); 
+            //for ex. UserB answers UserA 
+            var conn = users[data.name]; 
+				
+            if(conn != null) { 
+               connection.otherName = data.name; 
+               sendTo(conn, { 
+                  type: "answer", 
+                  answer: data.answer 
+               }); 
+            } 
+				
+            break;  
+				
+         case "candidate": 
+            console.log("Sending candidate to:",data.name); 
+            var conn = users[data.name];  
+				
+            if(conn != null) { 
+               sendTo(conn, { 
+                  type: "candidate", 
+                  candidate: data.candidate 
+               });
+            } 
+				
+            break;  
+				
+         case "leave": 
+            console.log("Disconnecting from", data.name); 
+            var conn = users[data.name]; 
+            conn.otherName = null; 
+				
+            //notify the other user so he can disconnect his peer connection 
+            if(conn != null) { 
+               sendTo(conn, { 
+                  type: "leave" 
+               }); 
+            }  
+				
+            break;  
+				
+         default: 
+            sendTo(connection, { 
+               type: "error", 
+               message: "Command not found: " + data.type 
+            }); 
+				
+            break; 
+      }  
+   });  
+	
+   //when user exits, for example closes a browser window 
+   //this may help if we are still in "offer","answer" or "candidate" state 
+   connection.on("close", function() { 
+	
+      if(connection.name) { 
+      delete users[connection.name]; 
+		
+         if(connection.otherName) { 
+            console.log("Disconnecting from ", connection.otherName);
+            var conn = users[connection.otherName]; 
+            conn.otherName = null;  
+				
+            if(conn != null) { 
+               sendTo(conn, { 
+                  type: "leave" 
+               });
+            }  
+         } 
+      } 
+   });  
+	
+   connection.send("Hello world"); 
+	
+});  
+
+function sendTo(connection, message) { 
+   connection.send(JSON.stringify(message)); 
+}
+```
