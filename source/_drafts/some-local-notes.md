@@ -22,6 +22,14 @@ templates:
 参数转发：  
 [The Forwarding Problem: Arguments](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2002/n1385.htm)  
 
+#### program notes:
+* 打印不换行，当前行刷新进度：利用'\r' 回到行首，但是不换行
+```c
+printf("\r current percentage:%d", per);
+
+//output:
+current percentage:10% //will update at current line
+```
 
 #### c++ notes:
 * 关于基类，如果基类只能被继承使用，而不能单独创建对象，可以将基类的构造函数声明为protected，这样基类的对象就不能够被显示的单独创建，而只能被继承后来创建。  
@@ -283,11 +291,150 @@ class derive :public base
 
 derive d; //compile error, default derive() ctor will be deleted
 ```
+* 右值的引入：左值是具名的能取地址的变量，剩下的就是右值。lamda 表达式属于右值。另外右值中的纯右值和将亡值，纯右值就是不和名字挂钩的一些常量，比如数字，字符，或者基本类型；将亡值主要是函数返回值。  
+std::move 的作用其实就是强行将左值转换为右值，类似于static_cast<T &&> x。但是对x 本身并没有什么操作，只是将左值变化为右值后调用右值拷贝构造的时候会偷走x 中的堆内存地址，并将x 的堆内存地址设置为null，因此用到move 语意的时候也最好是放弃对象使用周期的时候。  
+```c
+class A
+{
+public:
+	A(int n) :x(n) { printf("A %d ctor\n", x); }
+	~A() { printf("A %d dcotor\n",x); }
+	A(const A& a):x(a.x) { printf("A %d cpy ctor\n", x); }
+	A(A &&a) :x(std::move(a.x)) { a.x = -999; printf("A %d move cotr\n", x); }
+	A& operator=(A &a) { printf("A equal ctor\n"); }
+private:
+	int x;
+};
+
+//test1
+A test_a()
+{
+	A tmp(-1);
+	return tmp;
+}
+A a = test_a();
+//output of VS2017, gcc will optimize due to NRV
+A -1 ctor
+A -1 move cotr
+A -999 dcotor
+main return
+A -1 dcotor
+
+//test2
+A test_a()
+{
+	return A(-1);
+}
+A a = test_a();
+//output of VS2017
+A -1 ctor
+main return
+A -1 dcotor
+
+//test3
+A&& test_a()
+{
+	return std::move(A(-1));
+}
+A a = test_a();
+//output of VS2017
+A -1 ctor
+A -1 dcotor
+A 2130567168 move cotr
+main return
+A 2130567168 dcotor
+
+//test4
+A&& test_a()
+{
+	return std::move(A(-1));
+}
+A &&a = test_a();
+//output of VS2017
+A -1 ctor
+A -1 dcotor
+main return
+
+//test5
+A&& test_a()
+{
+	A tmp(-1);
+	return std::move(tmp);
+}
+A &&a = test_a();
+//output of VS2017
+A -1 ctor
+A -1 dcotor
+main return
+
+//test6
+A&& test_a()
+{
+	A tmp(-1);
+	return std::move(tmp);
+}
+A a = test_a();
+//output of VS2017
+will crash, due to move ctor can not access x of tmp, because it is in function stack memory and it can not be accessed again out of function
+```
+* 默认的移动构造函数实现是简单的位拷贝复制，和拷贝构造一样。所以默认的是不够的，如果需要移动版本构造函数，需要自行实现。在c++ 11中必须同时提供赋值，拷贝，移动构造函数，否则只能实现一种。  
+* 完美转发：std::forward，目的是将参数无损的转发到各阶段函数的参数上。主要是为了更好的利用move语意，以及右值引用。  
+* initializer_list 可以使用到函数参数中，包括构造和普通函数。目的是更好的扩展使用初始化列表，同时可以防止类型收窄（就是类型向下转换，float转为int等）。同时注意{} 的使用的广泛性。  
+* using 的语法更加灵活化，还可以精简模板类的书写。比如：
+```c
+template <typename T> using mapstr = std::map<T, std::string>
+```
+* auto 自动推导类型是重要的特性之一，可以多使用。其还可以和volatile const 配合使用。  
+另外一个搭档delctype，接受表达式作为参数来判断类型。使用例子：
+```c
+int a,b;
+decltype(a+b) c; //c is int
+
+float func();
+decltype(func()) d; //d is float
+```
+上述哥俩还可以和函数返回值追踪结合，更加适合泛化编程：
+```c
+template <typename T1, typename T2>
+auto func(T1 a, T2 b) -> decltype(a+b)
+{
+   return a+b;
+}
+```
+* for循环的加强:
+```c
+int action(int &a) {a *= 2;}
+int a[5] = {1,2,3,4,5};
+for_each(a, a+sizeof(a)/sizeof(a0), action);
+
+std::vector<int> v;
+for(auto x: v) { /*process*/ }
+```
+* 强类型枚举，只需在enum后面加上class：
+```c
+//加强了域名的作用，更加强类型，而且还可以指定类型
+enum class Type:char { Male, Female};
+```
+* x86平台对于原子操作都是强顺序的，也就是都是按照顺序执行机器指令；但是对于PowerPC其实是弱顺序的，也就是不一定按照定义的原子操作顺序执行。在弱顺序的硬件平台上如果要保证执行的顺序性，必须在对应的汇编段加上内存栅栏（memory barrier）。 
+
+
 
 
 rocksdb notes:
 writebach 支持多个操作的原子性，但是不进行冲突的检查  
 transaction 支持多个操作并发进行，并且进行冲突的检查，只有在没有冲突的情况下才会commit  
+
+#### hls 测试link  
+http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8  
+https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8
+http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8  
+http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8  
+LIVE：
+http://live.3gv.ifeng.com/zixun.m3u8  
+
+
+#### hls learning
+https://www.afterdawn.com/glossary/term.cfm/mpeg2_transport_stream
 
 
 #### some english words:  
@@ -340,6 +487,7 @@ suffice: 使满足，足够用
 trait: 特性，特质 n;  
 trivial: 不重要的，琐碎的 adj;  
 yield: 屈从，让步，出产  vt,vi; 产量 n;  
+vendor: 供应商 n;  
 
 
 
