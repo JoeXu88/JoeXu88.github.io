@@ -424,6 +424,10 @@ rocksdb notes:
 writebach 支持多个操作的原子性，但是不进行冲突的检查  
 transaction 支持多个操作并发进行，并且进行冲突的检查，只有在没有冲突的情况下才会commit  
 
+#### linux system
+* fwrite 不是原子操作，是ansic c封装的函数接口；但是write是Linux系统操作，是原子的，写文件的时候还注意加上apend打开属性可以保证不同进程写文件的原子操作，多线程可能还需要加锁来保证一些日子的产生。  
+
+
 #### hls 测试link  
 http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8  
 https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8
@@ -435,6 +439,10 @@ http://live.3gv.ifeng.com/zixun.m3u8
 
 #### hls learning
 https://www.afterdawn.com/glossary/term.cfm/mpeg2_transport_stream
+
+#### tools
+[mp4 parser online](http://mp4parser.com/)  
+
 
 
 #### some english words:  
