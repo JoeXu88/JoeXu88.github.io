@@ -444,6 +444,9 @@ https://www.afterdawn.com/glossary/term.cfm/mpeg2_transport_stream
 [mp4 parser online](http://mp4parser.com/)  
 
 
+#### ffmpeg commands
+* ffmpeg -i video.mp4 -c:v rawvideo -pix_fmt yuv420p out.yuv
+
 
 #### some english words:  
 adept: 熟练的 adj; 内行 n;  
