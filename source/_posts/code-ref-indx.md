@@ -49,6 +49,10 @@ int ret = rmdir("/home/cnd/mod1");
 printf("remove err:%s\n", strerror(errno)); //check err
 ```
 
+### 资源管理  
+* [退出作用域自动消除资源](https://joexu88.github.io/2019/04/08/auto-src-release-template/)
+
+
 ### shell
 * 配置多个gcc 版本  
 ```js
