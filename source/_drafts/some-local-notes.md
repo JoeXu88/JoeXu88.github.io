@@ -4,6 +4,9 @@ tags: notes
 ---
 
 shell notes:  
+* /etc/profile.d 目录下的环境变量是 /etc/profile 启动时一起被读取，那么想要在当前shell终端临时生效可以使用 source /etc/profile，要全局生效则需要注销重登录或者直接重启系统，和 /etc/profile 原理一样;   /etc/profile.d 目录下的环境变量和 /etc/profile 的环境变量优先级，根据环境变量在 /etc/profile 的for循环语句调用 /etc/profile.d 的前面还是后面，在前则被 /etc/profile.d 目录下的环境变量覆盖，在后则被 /etc/profile 的环境变量覆盖  
+
+* chrome secure shell: host chang => open secure shell app; then open console and type "term_.command.removeKnownHostByIndex(4)" if know indx or type "term_.command.removeAllKnownHosts()" if do not know indx  
 
 boost related:
 [boost source download](https://dl.bintray.com/boostorg/release/1.69.0/source/)  
