@@ -58,6 +58,7 @@ printf("remove err:%s\n", strerror(errno)); //check err
 ```js
 #!/bin/bash
 
+#number after version is priority, higher is prefered
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 10
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 20
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 30
