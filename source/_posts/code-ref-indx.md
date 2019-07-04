@@ -29,6 +29,7 @@ inline std::string utc2date(const time_t &rawtime /*unit:s*/)
 
 ### 文件IO
 * [使用ifstream和getline读取文件内容](https://blog.csdn.net/xubuwei/article/details/88978325)
+* [fstream文件读写操作](https://blog.csdn.net/kingstar158/article/details/6859379)
 * 判断文件夹存在  
 ```c
 static bool checkExist(const std::string &path)

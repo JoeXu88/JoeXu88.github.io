@@ -8,6 +8,15 @@ shell notes:
 
 * chrome secure shell: host chang => open secure shell app; then open console and type "term_.command.removeKnownHostByIndex(4)" if know indx or type "term_.command.removeAllKnownHosts()" if do not know indx  
 
+* centos 6 update gcc:  
+$ sudo yum install centos-release-scl
+$ sudo wget https://copr.fedorainfracloud.org/coprs/rhscl/devtoolset-3/repo/epel-6/rhscl-devtoolset-3-epel-6.repo -O /etc/yum.repos.d/rhscl-devtoolset-3-epel-6.repo
+$ sudo yum install devtoolset-3-gcc devtoolset-3-gcc-c++  devtoolset-3-gdb
+$ scl enable devtoolset-3 bash
+
+refer: https://www.hi-linux.com/posts/25767.html
+
+
 boost related:
 [boost source download](https://dl.bintray.com/boostorg/release/1.69.0/source/)  
 [boost official site](http://www.boost.org/)  
@@ -119,6 +128,7 @@ c++ 编译器会无形中会容易产生一些临时对象，比如参数，或�
 支持exception处理的构造函数会变得更加复杂。但是有一点准则，只有完整构造的对象才会在exception时被析构。如果构造函数中发生exception，destruction不会被调用。  
 * dynamic_cast  
 动态类型检查所付出的代价要大于static_cast，因为其要在多态类的虚函数表中产生一个typeinfo，并拿出这个typeinfo来判断是否可以进行类型转换。不过也因为如此而安全很多，如果不符合转换的条件将不会返回对应的指针。同时动态监测也适用于reference，但是reference不像指针，如果失败会返回空指针，reference失败时候的做法是抛出一个exception。    
+* 引用可以在对象中声名，在构造的时候初始化引用对象。  
 
 
 #### effective c++  
