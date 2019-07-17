@@ -17,6 +17,10 @@ $ scl enable devtoolset-3 bash
 refer: https://www.hi-linux.com/posts/25767.html
 
 
+curl related:
+[libcurl parallel](https://izualzhy.cn/use-curl-with-high-performance)
+
+
 boost related:
 [boost source download](https://dl.bintray.com/boostorg/release/1.69.0/source/)  
 [boost official site](http://www.boost.org/)  
