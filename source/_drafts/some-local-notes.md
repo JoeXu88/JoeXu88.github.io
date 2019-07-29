@@ -41,7 +41,7 @@ templates:
 #### program notes:
 * 打印不换行，当前行刷新进度：利用'\r' 回到行首，但是不换行
 ```c
-printf("\r current percentage:%d", per);
+printf("\r current percentage:%d%", per);
 
 //output:
 current percentage:10% //will update at current line
