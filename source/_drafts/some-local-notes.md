@@ -46,6 +46,7 @@ printf("\r current percentage:%d%", per);
 //output:
 current percentage:10% //will update at current line
 ```
+* "corrupted size vs. prev_size" glibc error: 一般是内存越界，可能写出了内存分配区域。  
 
 #### c++ notes:
 * 关于基类，如果基类只能被继承使用，而不能单独创建对象，可以将基类的构造函数声明为protected，这样基类的对象就不能够被显示的单独创建，而只能被继承后来创建。  

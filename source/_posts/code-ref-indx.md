@@ -11,6 +11,9 @@ categories: program
 * utc 转日期时间等  
 <!--more -->
 ```c
+#include <chrono>
+#include <time.h>
+
 inline std::string utc2date(const time_t &rawtime /*unit:s*/)
 {
     struct tm *tinfo = std::localtime(&rawtime);
@@ -18,6 +21,45 @@ inline std::string utc2date(const time_t &rawtime /*unit:s*/)
     strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", tinfo);
     return std::string(buffer);
 }
+
+inline int getUTC_Seconds()
+{
+    return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+}
+
+inline time_t convertStrToUTC(const char* str)
+{
+    int yy, mm, dd, hour, min, sec;
+    sscanf(str, "%d-%d-%d %d:%d:%d", &yy, &mm, &dd, &hour, &min, &sec);
+
+    struct tm timeinfo;
+    timeinfo.tm_year = yy - 1900;
+    timeinfo.tm_mon  = mm - 1;
+    timeinfo.tm_mday = dd; 
+    timeinfo.tm_hour = hour;
+    timeinfo.tm_min  = min;
+    timeinfo.tm_sec  = sec;
+
+    return mktime(&timeinfo);
+}
+
+void test_utc_equal2time()
+{
+	const char* start_time = "1970-01-01 1:0:0"; //ignore yy:mm:day, use hour:min:second
+	const int HOURS24 = 24 * 60 * 60;
+	time_t start = convertStrToUTC(start_time);
+	int dist_now = (getUTC_Seconds() - timezone)%HOURS24; 
+	int dist_start = (start - timezone)%HOURS24; //seconds since 00:00:00 in one day
+
+	while(dist_now != dist_start)
+	{
+		printf("\r dist now:%d, start:%d", dist_now, dist_start);
+		dist_now = (getUTC_Seconds() - timezone)%HOURS24;
+		dist_start = (start - timezone)%HOURS24;
+	}
+	printf("\nnow: %d\n", getUTC_Seconds());
+}
+
 ```
 * [计算时间消耗](https://joexu88.github.io/2019/04/08/time-cost-template/)
 
