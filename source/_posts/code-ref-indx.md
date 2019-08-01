@@ -125,5 +125,5 @@ PS1='\[`[ $? = 0 ] && X=2 || X=1; tput setaf $X`\]\u@\h\[`tput sgr0`\]:$PWD\n\$ 
 ##will show like this:
 ulu@localhost:/home/ulu/devlp/face_control_test_bin
 ```
-
+[params explain site](https://wiki.archlinux.org/index.php/Bash/Prompt_customization_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 custom define refer site: http://ezprompt.net/  
