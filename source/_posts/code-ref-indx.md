@@ -98,7 +98,7 @@ printf("remove err:%s\n", strerror(errno)); //check err
 
 
 ### shell
-* 配置多个gcc 版本  
+* ubuntu 配置多个gcc 版本  
 ```js
 #!/bin/bash
 
@@ -117,3 +117,13 @@ sudo update-alternatives --set c++ /usr/bin/g++
 sudo update-alternatives --config gcc
 sudo update-alternatives --config g++
 ```
+* set bash prompt
+```js
+edit ~/.bashrc or /etc/profile to add following:
+PS1='\[`[ $? = 0 ] && X=2 || X=1; tput setaf $X`\]\u@\h\[`tput sgr0`\]:$PWD\n\$ '
+
+##will show like this:
+ulu@localhost:/home/ulu/devlp/face_control_test_bin
+```
+
+custom define refer site: http://ezprompt.net/  
