@@ -7,7 +7,7 @@ categories: program
 
 ### time
 * [部分函数使用参考](https://www.runoob.com/cplusplus/cpp-date-time.html)  
-* [utc time covert](https://www.epochconverter.com/)
+* [online utc time covert](https://www.epochconverter.com/)
 * utc 转日期时间等  
 <!--more -->
 ```c
@@ -95,6 +95,9 @@ printf("remove err:%s\n", strerror(errno)); //check err
 
 ### 资源管理  
 * [退出作用域自动消除资源](https://joexu88.github.io/2019/04/08/auto-src-release-template/)
+
+### 多线程  
+* [C和C++中的volatile、内存屏障和CPU缓存一致性协议MESI](http://blog.chinaunix.net/uid-20682147-id-5817710.html#_Toc27148_WPSOffice_Level1)
 
 
 ### shell
