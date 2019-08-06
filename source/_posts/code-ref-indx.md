@@ -123,7 +123,7 @@ sudo update-alternatives --config g++
 * set bash prompt
 ```js
 edit ~/.bashrc or /etc/profile to add following:
-PS1='\[`[ $? = 0 ] && X=2 || X=1; tput setaf $X`\]\u@\h\[`tput sgr0`\]:$PWD\n\$ '
+PS1='\[`[ $? = 0 ] && X=2 || X=1; tput setaf $X`\][\d \t] \u@\h\[`tput sgr0`\]:$PWD\n\$ '
 
 ##will show like this:
 ulu@localhost:/home/ulu/devlp/face_control_test_bin
