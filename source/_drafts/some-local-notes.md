@@ -8,6 +8,7 @@ shell notes:
 
 * chrome secure shell: host chang => open secure shell app; then open console and type "term_.command.removeKnownHostByIndex(4)" if know indx or type "term_.command.removeAllKnownHosts()" if do not know indx  
 
+<!--more -->
 * centos 6 update gcc:  
 $ sudo yum install centos-release-scl
 $ sudo wget https://copr.fedorainfracloud.org/coprs/rhscl/devtoolset-3/repo/epel-6/rhscl-devtoolset-3-epel-6.repo -O /etc/yum.repos.d/rhscl-devtoolset-3-epel-6.repo
@@ -19,13 +20,13 @@ refer: https://www.hi-linux.com/posts/25767.html
 
 curl related:
 [libcurl parallel](https://izualzhy.cn/use-curl-with-high-performance)
+[libcurl basic infos](https://ec.haxx.se/how.html)
 
 
 boost related:
 [boost source download](https://dl.bintray.com/boostorg/release/1.69.0/source/)  
 [boost official site](http://www.boost.org/)  
 
-<!--more -->
 #### 线程并发相关资料:  
 [Sequencing and the concurrency memory model](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2052.htm)  
 [singleton obj in multithread env](https://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf)  
