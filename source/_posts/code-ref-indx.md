@@ -105,6 +105,10 @@ printf("remove err:%s\n", strerror(errno)); //check err
 * [libcurl parallel](https://izualzhy.cn/use-curl-with-high-performance)
 * [libcurl basic infos](https://ec.haxx.se/how.html)
 
+### 编译（及汇编）  
+* [cpu 指令编译选项](https://www.cnblogs.com/aios/p/9955339.html)
+* [IA-32处理器基本功能](https://blog.csdn.net/qq_36982160/article/details/84033068)
+
 
 ### shell
 * ubuntu 配置多个gcc 版本  
