@@ -102,6 +102,7 @@ printf("remove err:%s\n", strerror(errno)); //check err
 
 ### 网络  
 * [libcurl multi thread problems](https://curl.haxx.se/libcurl/c/threadsafe.html)
+* [libcurl threaded-ssl](https://curl.haxx.se/libcurl/c/threaded-ssl.html)
 * [libcurl parallel](https://izualzhy.cn/use-curl-with-high-performance)
 * [libcurl basic infos](https://ec.haxx.se/how.html)
 
