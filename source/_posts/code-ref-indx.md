@@ -100,6 +100,12 @@ printf("remove err:%s\n", strerror(errno)); //check err
 * [C和C++中的volatile、内存屏障和CPU缓存一致性协议MESI](http://blog.chinaunix.net/uid-20682147-id-5817710.html#_Toc27148_WPSOffice_Level1)
 
 
+### 网络  
+* [libcurl multi thread problems](https://curl.haxx.se/libcurl/c/threadsafe.html)
+* [libcurl parallel](https://izualzhy.cn/use-curl-with-high-performance)
+* [libcurl basic infos](https://ec.haxx.se/how.html)
+
+
 ### shell
 * ubuntu 配置多个gcc 版本  
 ```js
