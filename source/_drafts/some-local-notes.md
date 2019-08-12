@@ -23,6 +23,10 @@ curl related:
 [libcurl basic infos](https://ec.haxx.se/how.html)
 
 
+#### memcheck
+*valgrind: valgrind --tool=memcheck --leak-check=full --log-file=./mem.log ./exec
+
+
 boost related:
 [boost source download](https://dl.bintray.com/boostorg/release/1.69.0/source/)  
 [boost official site](http://www.boost.org/)  
