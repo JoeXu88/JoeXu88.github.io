@@ -76,9 +76,9 @@ ADD_EXECUTABLE(main ${SRC_LIST})
 * EXEC_PROGRAM
 在 CMakeLists.txt 处理过程中执行命令，并不会在生成的 Makefile 中执行。具体语法为：
 EXEC_PROGRAM(Executable [directory in which to run]
- [ARGS <arguments to executable>]
- [OUTPUT_VARIABLE <var>]
- [RETURN_VALUE <var>])  
+ [ARGS (arguments to executable)]
+ [OUTPUT_VARIABLE (var)]
+ [RETURN_VALUE (var)])  
 用于在指定的目录运行某个程序，通过 ARGS 添加参数，如果要获取输出和返回值，可通过OUTPUT_VARIABLE 和 RETURN_VALUE 分别定义两个变量.  
 这个指令可以帮助你在 CMakeLists.txt 处理过程中支持任何命令，比如根据系统情况去修改代码文件等等。举个简单的例子，我们要在 src 目录执行 ls 命令，并把结果和返回值存下来。可以直接在 src/CMakeLists.txt 中添加：  
 EXEC_PROGRAM(ls ARGS "*.c" OUTPUT_VARIABLE LS_OUTPUT RETURN_VALUE LS_RVALUE)  
