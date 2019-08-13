@@ -26,6 +26,9 @@ curl related:
 #### memcheck
 *valgrind: valgrind --tool=memcheck --leak-check=full --log-file=./mem.log ./exec
 
+#### cmake
+* [实践文档](http://file.ncnynl.com/ros/CMake%20Practice.pdf)
+
 
 boost related:
 [boost source download](https://dl.bintray.com/boostorg/release/1.69.0/source/)  
