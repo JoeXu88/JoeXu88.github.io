@@ -100,23 +100,24 @@ ENDIF(not LS_RVALUE)
  FILE(TO_CMAKE_PATH path result)  
  FILE(TO_NATIVE_PATH path result)  
 这里的语法都比较简单，不在展开介绍了。
-* INCLUDE 指令，用来载入 CMakeLists.txt 文件，也用于载入预定义的 cmake 模块.
+* INCLUDE 指令  
+用来载入 CMakeLists.txt 文件，也用于载入预定义的 cmake 模块.
  INCLUDE(file1 [OPTIONAL])  
  INCLUDE(module [OPTIONAL])  
 OPTIONAL 参数的作用是文件不存在也不会产生错误。你可以指定载入一个文件，如果定义的是一个模块，那么将在 CMAKE_MODULE_PATH 中搜索这个模块并载入。载入的内容将在处理到 INCLUDE 语句是直接执行。
 
 ##### FIND_指令
 FIND_系列指令主要包含一下指令：  
-FIND_FILE(<VAR> name1 path1 path2 ...)  
+FIND_FILE((VAR) name1 path1 path2 ...)  
 VAR 变量代表找到的文件全路径，包含文件名  
-FIND_LIBRARY(<VAR> name1 path1 path2 ...)  
+FIND_LIBRARY((VAR) name1 path1 path2 ...)  
 VAR 变量表示找到的库全路径，包含库文件名  
-FIND_PATH(<VAR> name1 path1 path2 ...)  
+FIND_PATH((VAR) name1 path1 path2 ...)  
 VAR 变量代表包含这个文件的路径。  
-FIND_PROGRAM(<VAR> name1 path1 path2 ...)  
+FIND_PROGRAM((VAR) name1 path1 path2 ...)  
 VAR 变量代表包含这个程序的全路径。  
-FIND_PACKAGE(<name> [major.minor] [QUIET] [NO_MODULE] [[REQUIRED|COMPONENTS] [componets...]])  
-用来调用预定义在 CMAKE_MODULE_PATH 下的 Find<name>.cmake 模块，你也可以自己定义 Find<name>模块，通过 SET(CMAKE_MODULE_PATH dir)将其放入工程的某个目录中供工程使用。  
+FIND_PACKAGE((name) [major.minor] [QUIET] [NO_MODULE] [[REQUIRED|COMPONENTS] [componets...]])  
+用来调用预定义在 CMAKE_MODULE_PATH 下的 Find(name).cmake 模块，你也可以自己定义 Find(name)模块，通过 SET(CMAKE_MODULE_PATH dir)将其放入工程的某个目录中供工程使用。  
 FIND_LIBRARY 示例：  
 FIND_LIBRARY(libX X11 /usr/lib)  
 IF(NOT libX)  
@@ -140,7 +141,7 @@ ENDIF(NOT libX)
 * 另外一个指令是 ELSEIF，总体把握一个原则，凡是出现 IF 的地方一定要有对应的
 ENDIF.出现 ELSEIF 的地方，ENDIF 是可选的。
 表达式的使用方法如下:
-IF(var)，如果变量不是：空，0, N, NO, OFF, FALSE, NOTFOUND 或 <var>_NOTFOUND 时, 表达式为真。  
+IF(var)，如果变量不是：空，0, N, NO, OFF, FALSE, NOTFOUND 或 (var)_NOTFOUND 时, 表达式为真。  
 IF(NOT var )，与上述条件相反。  
 IF(var1 AND var2)，当两个变量都为真是为真。  
 IF(var1 OR var2)，当两个变量其中一个为真时为真。  
@@ -208,7 +209,7 @@ WHILE 指令的语法是：
 其真假判断条件可以参考 IF 指令。
 * FOREACH
 FOREACH 指令的使用方法有三种形式：
-1. 列表
+1.列表
 ```js
  FOREACH(loop_var arg1 arg2 ...)
  COMMAND1(ARGS ...)
@@ -223,7 +224,7 @@ FOREACH(F ${SRC_LIST})
 MESSAGE(${F})
 ENDFOREACH(F)
 ```
-2. 范围  
+2.范围  
 FOREACH(loop_var RANGE total)  
 ENDFOREACH(loop_var)  
 从 0 到 total 以1为步进，举例如下：  
@@ -245,7 +246,7 @@ ENDFOREACH(VAR)
 9
 10
 ```
-3. 范围和步进  
+3.范围和步进  
 FOREACH(loop_var RANGE start stop [step])  
 ENDFOREACH(loop_var)  
 从 start 开始到 stop 结束，以 step 为步进，举例如下:  
