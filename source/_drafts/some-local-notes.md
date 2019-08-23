@@ -28,6 +28,7 @@ curl related:
 
 #### cmake
 * [实践文档](http://file.ncnynl.com/ros/CMake%20Practice.pdf)
+* [morden cmake](https://meetingcpp.com/mcpp/slides/2018/MoreModernCMake.pdf)
 
 
 boost related:
@@ -50,6 +51,8 @@ templates:
 * 打印不换行，当前行刷新进度：利用'\r' 回到行首，但是不换行
 ```c
 printf("\r current percentage:%d%", per);
+printf("\033[?25h"); //显示光标
+printf("\033[?25l"); //隐藏光标
 
 //output:
 current percentage:10% //will update at current line
