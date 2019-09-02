@@ -470,6 +470,10 @@ http://live.3gv.ifeng.com/zixun.m3u8
 #### hls learning
 https://www.afterdawn.com/glossary/term.cfm/mpeg2_transport_stream
 
+#### rtmp & flv
+![rtmp protocal](/images/rtmp.png)  
+![flv packing protocal](/images/flv.png)  
+
 #### tools
 [mp4 parser online](http://mp4parser.com/)  
 
