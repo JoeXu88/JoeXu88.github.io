@@ -486,6 +486,10 @@ ffmpeg -i video.mp4 -c:v rawvideo -pix_fmt yuv420p out.yuv
 [low latency hls](https://www.theoplayer.com/blog/low-latency-hls-lhls)
 
 
+#### network  
+* tcp read fail if connet disapear return connect rst; tcp write fail if connect disapear return SIGPIPE  
+
+
 #### some english words:  
 adept: 熟练的 adj; 内行 n;  
 adequately: 充分的 adj;  
