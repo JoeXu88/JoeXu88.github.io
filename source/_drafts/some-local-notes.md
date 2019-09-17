@@ -480,10 +480,14 @@ https://www.afterdawn.com/glossary/term.cfm/mpeg2_transport_stream
 
 * ffmpeg commands  
 ffmpeg -i video.mp4 -c:v rawvideo -pix_fmt yuv420p out.yuv
+ffmpeg -rtsp_transport tcp -i "rtsp://admin:Ulucu888@172.30.20.128:554/" -vcodec copy -acodec aac -f flv 'rtmp://192.168.73.131/live/livestream'  
 
 * cmaf and lhls  
-[What is CMAF](https://www.theoplayer.com/blog/low-latency-chunked-cmaf)
-[low latency hls](https://www.theoplayer.com/blog/low-latency-hls-lhls)
+[What is CMAF](https://www.theoplayer.com/blog/low-latency-chunked-cmaf)  
+[low latency hls](https://www.theoplayer.com/blog/low-latency-hls-lhls)  
+
+* mp4  
+[file type analyse](http://www.360doc.com/content/13/0130/09/6979751_263177149.shtml#)
 
 
 #### network  
