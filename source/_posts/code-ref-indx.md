@@ -63,6 +63,8 @@ void test_utc_equal2time()
 ```
 * [计算时间消耗](https://joexu88.github.io/2019/04/08/time-cost-template/)
 
+### 优秀开源项目  
+[open source projects](https://www.ezlippi.com/blog/2014/12/c-open-project.html)
 
 ### string
 * [字符串数字互转参考](https://blog.csdn.net/jiang111_111shan/article/details/80430281)  

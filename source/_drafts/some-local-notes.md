@@ -18,9 +18,25 @@ $ scl enable devtoolset-3 bash
 refer: https://www.hi-linux.com/posts/25767.html
 
 
-curl related:
+* curl related:
 [libcurl parallel](https://izualzhy.cn/use-curl-with-high-performance)
-[libcurl basic infos](https://ec.haxx.se/how.html)
+[libcurl basic infos](https://ec.haxx.se/how.html)  
+
+* tmux shortcuts  
+<pre>
+:new<CR> --# 创建新的 Session，其中 : 是进入 Tmux 命令行的快捷键  
+s        --# 列出所有 Session，可通过 j, k, 回车切换  
+$       -- # 为当前 Session 命名  
+c       -- # 创建 Window  
+(n)     --  # 切换到第 n 个 Window  
+,       -- # 为当前 Window 命名  
+%       -- # 垂直切分 Pane  
+"       -- # 水平切分 Pane  
+space   -- # 切换 Pane 布局  
+d       -- # detach，退出 Tmux Session，回到父级 Shell  
+t       -- # 显示一个时钟，:)  
+?       -- # 快捷键帮助列表 
+</pre> 
 
 
 #### memcheck
@@ -491,7 +507,26 @@ ffmpeg -rtsp_transport tcp -i "rtsp://admin:Ulucu888@172.30.20.128:554/" -vcodec
 
 
 #### network  
+* msl, ttl, rtt  
+1、 MSL 是Maximum Segment Lifetime英文的缩写，中文可以译为“报文最大生存时间”，他是任何报文在网络上存在的最长时间，超过这个时间报文将被丢弃。因为tcp报文 （segment）是ip数据报（datagram）的数据部分，具体称谓请参见《数据在网络各层中的称呼》一文；  
+2、ip头中有一个TTL域，TTL是 time to live的缩写，中文可以译为“生存时间”，这个生存时间是由源主机设置初始值但不是存的具体时间，而是存储了一个ip数据报可以经过的最大路由数，每经 过一个处理他的路由器此值就减1，当此值为0则数据报将被丢弃，同时发送ICMP报文通知源主机。RFC 793中规定MSL为2分钟，实际应用中常用的是30秒，1分钟和2分钟等。
+TTL与MSL是有关系的但不是简单的相等的关系，MSL要大于等于TTL。  
+3、 RTT是客户到服务器往返所花时间（round-trip time，简称RTT），TCP含有动态估算RTT的算法。TCP还持续估算一个给定连接的RTT，这是因为RTT受网络传输拥塞程序的变化而变化  
+
 * tcp read fail if connet disapear return connect rst; tcp write fail if connect disapear return SIGPIPE  
+* recvfrom 和 sendto 是 UDP 用来接收和发送.  
+* UDP 通过recvfrom 每次都能拿到对端信息，TCP 是通过 accept 函数拿到的描述字信息来决定对端的信息。UDP 报文和和报文之间是没有上下文的。 
+* close
+close 函数只是把套接字引用计数减 1，未必会立即关闭连接，只有当连接数降为0的时候才会断开连接， 立即终止读写2个方向；如果想要立马中断读写任一个方向，可以使用shutdown函数. 在大多数情况下，我们会优选 shutdown 来完成对连接一个方向的关闭，待对端处理完毕后再关闭另外一个方向。  
+* TIME_WAIT  
+产生time wait 是由于tcp 连接中断后发起方引发的一个状态维护。注意这个timewait 只有连接中断的发起方才会有，并且持续时间为 2MSL (max segment live)，最大分节生命周期。这个时间足以保证2个方向的报文数据都自然消亡。解释下报文消亡的情况：在网络中，经常会发生报文经过一段时间才能到达目的地的情况，产生的原因多种多样，如路由器重启，断电，链路中断等；如果报文到达时候发现tcp的四元组（源 IP，源端口，目的 IP，目的端口）所代表的的连接不存在了，那么这个报文会被丢弃；但是假如这个报文到达的时候，这个tcp连接被重启了，也就是路由器可能又上电了，四元组替身出现了，但已不是原先的那个连接了，不过却可能会误认为这个报文是发送给这个替身节点的，这就会引起错误。默认Linux下MSL的值为60s(/proc/sys/net/ipv4/tcp_fin_timeout)，所以假设发生TIME WAIT需要等2分钟才会丢弃这个连接。为了优化这个time wait，可以设置time wait 端口重用，以增加端口的复用，但是time wait并不能被消除，要注意这点。  
+* address resuse setting  
+tcp_tw_reuse 主要是用于连接的发起方，开启后time wait 状态经过1s 之后就可以被重用。相当于缩短了time wait的时间，原本一般为2 分钟。  
+SO_REUSEADDR 是用户态的设置，是用户态告诉内核假如端口被占用，但是还处于time wait状态，可以被重用，但是如果处于其他状态依然会返回address in use的错误。而且这个设置要放在bind 之前设置才有效，不然不会被内核所得知。这个设置主要针对连接的服务方，因此服务器端一般最好设置这个重用： int on = 1; setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));  
+* UDP 连接(connect) 和断开的过程其实就是内核记录端口及地址的映射关系，和删除映射关系的过程，而不像TCP那样发起连接。直到发送数据才会开始将数据发送到记录的映射对端那里。如果不调用connect 也是可以的，只不过没有预先的映射关系，效率会低一点。  
+
+
+
 
 
 #### some english words:  
