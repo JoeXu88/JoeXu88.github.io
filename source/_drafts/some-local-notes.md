@@ -463,10 +463,26 @@ enum class Type:char { Male, Female};
 ```
 * x86平台对于原子操作都是强顺序的，也就是都是按照顺序执行机器指令；但是对于PowerPC其实是弱顺序的，也就是不一定按照定义的原子操作顺序执行。在弱顺序的硬件平台上如果要保证执行的顺序性，必须在对应的汇编段加上内存栅栏（memory barrier）。 
 
+* std::functional 和 std::bind  
+bind是绑定函数和参数输入，function 是定义函数类型以及入参，返回值，这2者可以多样化组合。注意一点： bind 结果不一定要和function 定义一致，因此可以引申出无穷多的组合，也就意味着function 可以等于任意bind 的结果。  
+```c
+比如：
+#include <functional>
+void bind_func(int a, int b)
+{
+    printf("bind param: %d, %d\n", a, b); 
+}
+
+std::function<void(int b, int a)> test_func = std::bind(bind_func, 1, std::placeholders::_1);
+test_func(2, 3); //bind_func will take param 1 as a, and 2 as b, and ignore param 3
+
+//output:
+bind param: 1, 2
+```
 
 
 
-rocksdb notes:
+#### rocksdb notes:
 writebach 支持多个操作的原子性，但是不进行冲突的检查  
 transaction 支持多个操作并发进行，并且进行冲突的检查，只有在没有冲突的情况下才会commit  
 
