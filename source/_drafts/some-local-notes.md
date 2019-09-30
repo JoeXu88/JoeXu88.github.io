@@ -513,6 +513,7 @@ https://www.afterdawn.com/glossary/term.cfm/mpeg2_transport_stream
 * ffmpeg commands  
 ffmpeg -i video.mp4 -c:v rawvideo -pix_fmt yuv420p out.yuv
 ffmpeg -rtsp_transport tcp -i "rtsp://admin:Ulucu888@172.30.20.128:554/" -vcodec copy -acodec aac -f flv 'rtmp://192.168.73.131/live/livestream'  
+install: https://trac.ffmpeg.org/wiki/CompilationGuide/Centos  
 
 * cmaf and lhls  
 [What is CMAF](https://www.theoplayer.com/blog/low-latency-chunked-cmaf)  
@@ -541,6 +542,14 @@ tcp_tw_reuse 主要是用于连接的发起方，开启后time wait 状态经过
 SO_REUSEADDR 是用户态的设置，是用户态告诉内核假如端口被占用，但是还处于time wait状态，可以被重用，但是如果处于其他状态依然会返回address in use的错误。而且这个设置要放在bind 之前设置才有效，不然不会被内核所得知。这个设置主要针对连接的服务方，因此服务器端一般最好设置这个重用： int on = 1; setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));  
 * UDP 连接(connect) 和断开的过程其实就是内核记录端口及地址的映射关系，和删除映射关系的过程，而不像TCP那样发起连接。直到发送数据才会开始将数据发送到记录的映射对端那里。如果不调用connect 也是可以的，只不过没有预先的映射关系，效率会低一点。  
 
+
+#### 数据结构与算法  
+* [动态算法演示图](https://visualgo.net/)
+* 排序算法  
+冒泡，插入，选择排序都是O(n^2) 的时间复杂度，除了选择排序外其余二者是稳定排序。对于效率方面，首选插入排序。因为同样的时间复杂度，冒泡和选择涉及到数据的交换，而插入法只涉及到数据移动，从代码角度交换需要3条赋值语句实现，而数据移动只需要1句赋值语句，因此需要考虑效能方面优先选择插入法排序。  
+* 分治思想跟递归思想很像。分治算法一般都是用递归来实现的，分治是思想，递归是编程技巧，二者并不冲突。  
+* 归并算法和快速排序法都是O(nlogn) 的时间复杂度，因为都是基于分治算法思想，分开2 段分别递归再归并。但是归并算法在实际场景中并不常用，因为有额外的空间支出，需要分配临时数据内存，但是快速排序不需要。总的来说，归并是从下往上合并，快速是从上往下分治。  
+* 二分查找无处不在，但是二分也有它的局限性：首先只能查找有序序列，也就是根据排好序的数据来缩小范围进行查找；局限于数组类型，如果是链表就会退化到O(n)。二分查找的临界点是包含等于的，也就是说可以查找等于某个值的，或者大于等于，小于等于的值，而不能单独查找说大于某个值的，因为范围不好缩小到最后，找不到退出的临界点。假设我们要查找第一个大于某个值的点，可以转换为查找最后一个小于等于的点，然后下一个就是第一个大于的，同理要查找最后一个小于某个值的点，就转换为查找第一个大于等于的点。那如果查找第一个小于等于的，或者最后一个大于等于呢，这个其实没有意义，因为直接查看第一个值或者最后一个值就行，没有查找的必要。  
 
 
 
