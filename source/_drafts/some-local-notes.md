@@ -479,7 +479,21 @@ test_func(2, 3); //bind_func will take param 1 as a, and 2 as b, and ignore para
 //output:
 bind param: 1, 2
 ```
+* 无限参数的设置  
+```c
+#define CPR_FWD(...) ::std::forward<decltype(__VA_ARGS__)>(__VA_ARGS__)
 
+template <typename T>
+void set_option(Session& session, T&& t) {
+    session.SetOption(CPR_FWD(t));
+}
+
+template <typename T, typename... Ts>
+void set_option(Session& session, T&& t, Ts&&... ts) {
+    set_option(session, CPR_FWD(t)); //挨个设置
+    set_option(session, CPR_FWD(ts)...); //递归调用
+}
+```
 
 
 #### rocksdb notes:
