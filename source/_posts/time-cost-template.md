@@ -14,6 +14,7 @@ c++11 标准库中引入了std::chrono 类，可以方便管理时间相关的�
 #include <string.h>
 #include <iostream>
 #include <functional>
+#include <typeinfo>
 
 using namespace std::chrono;
 using std::string;
@@ -23,6 +24,12 @@ class TimeCost final
 {
 public:
     TimeCost(string name, string unit):_name(name), _unit(unit), _start(system_clock::now()) {}
+    TimeCost(string name):_name(name), _start(system_clock::now()) {
+        if(typeid(T) == typeid(std::chrono::milliseconds)) _unit = "ms";
+        else if(typeid(T) == typeid(std::chrono::microseconds)) _unit = "us";
+        else if(typeid(T) == typeid(std::chrono::nanoseconds)) _unit = "ns";
+        else if(typeid(T) == typeid(std::chrono::seconds)) _unit = "s";
+    }
     void start() { _start = system_clock::now(); _showAtDctor = false; }
     void end() { show_cost(); }
 
@@ -51,10 +58,13 @@ private:
 {
     TimeCost<std::chrono::milliseconds> cost("do something", "ms");
     //do some job
+
+    TimeCost<std::chrono::milliseconds> cost("do something");
+    //do some job
 }
 //usage 2
 {
-    TimeCost<std::chrono::milliseconds> cost("do something", "ms");
+    TimeCost<std::chrono::milliseconds> cost("do something");
     cost.start();
     //do some job
     cost.end();
