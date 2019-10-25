@@ -21,6 +21,7 @@ refer: https://www.hi-linux.com/posts/25767.html
 * curl related:
 [libcurl parallel](https://izualzhy.cn/use-curl-with-high-performance)
 [libcurl basic infos](https://ec.haxx.se/how.html)  
+[libcurl and openssl build](https://blog.csdn.net/sz76211822/article/details/86237370)  
 
 * tmux shortcuts  
 <pre>
