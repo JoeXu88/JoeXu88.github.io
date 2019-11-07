@@ -138,6 +138,8 @@ sudo update-alternatives --config g++
 ```js
 edit ~/.bashrc or /etc/profile to add following:
 PS1='\[`[ $? = 0 ] && X=2 || X=1; tput setaf $X`\][\d \t] \u@\h\[`tput sgr0`\]:$PWD\n\$ '
+PS1="\[\e[m\]\[\e[32m\][\[\e[m\]\[\e[32m\]\d\[\e[m\]\[\e[32m\] \[\e[m\]\[\e[32m\]\A\[\e[m\]\[\e[32m\]]\[\e[m\]\[\e[32m\] \[\e[m\]\[\e[32m\]\u\[\e[m\]\[\e[32m\]@\[\e[m\]\[\e[32m\]\h\[\e[m\]\[\e[32m\]:\[\e[m\]\w\[\e[m\]\n\$ "
+"\[\e[m\]" 可以禁止颜色被改，有时候终端出现错误可能会有红色error出现，禁止被篡改为最后的颜色
 
 ##will show like this:
 ulu@localhost:/home/ulu/devlp/face_control_test_bin
