@@ -67,6 +67,9 @@ void test_utc_equal2time()
 [open source projects](https://www.ezlippi.com/blog/2014/12/c-open-project.html)
 [nxweb http server](http://nxweb.org/)
 
+### 算法学习
+[labuladong algo](https://labuladong.gitbook.io/algo/)
+
 ### string
 * [字符串数字互转参考](https://blog.csdn.net/jiang111_111shan/article/details/80430281)  
 * [除去字节序中0的字符操作](https://joexu88.github.io/2019/05/21/record-method-bytes-to-string-remove-zero/)
