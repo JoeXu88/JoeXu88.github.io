@@ -21,7 +21,8 @@ refer: https://www.hi-linux.com/posts/25767.html
 * curl related:
 [libcurl parallel](https://izualzhy.cn/use-curl-with-high-performance)
 [libcurl basic infos](https://ec.haxx.se/how.html)  
-[libcurl and openssl build](https://blog.csdn.net/sz76211822/article/details/86237370)  
+[libcurl and openssl build](https://blog.csdn.net/sz76211822/article/details/86237370) 
+curl urlencode 使用：curl -G --data-urlencode "port=4546" --data-urlencode "content=哈哈哈" www.test.com 
 
 * tmux shortcuts  
 <pre>
@@ -465,7 +466,7 @@ enum class Type:char { Male, Female};
 * x86平台对于原子操作都是强顺序的，也就是都是按照顺序执行机器指令；但是对于PowerPC其实是弱顺序的，也就是不一定按照定义的原子操作顺序执行。在弱顺序的硬件平台上如果要保证执行的顺序性，必须在对应的汇编段加上内存栅栏（memory barrier）。 
 
 * std::functional 和 std::bind  
-bind是绑定函数和参数输入，function 是定义函数类型以及入参，返回值，这2者可以多样化组合。注意一点： bind 结果不一定要和function 定义一致，因此可以引申出无穷多的组合，也就意味着function 可以等于任意bind 的结果。  
+bind是绑定函数和参数输入，function 是定义函数类型以及入参，返回值，这2者可以多样化组合。注意一点： bind 结果不一定要和function 定义一致，因此可以引申出无穷多的组合，也就意味着function 可以等于任意bind 的结果。另外bind 是参数值传递的，所以需要注意下，如果需要传引用需要用到std::ref。  
 ```c
 比如：
 #include <functional>
@@ -495,6 +496,8 @@ void set_option(Session& session, T&& t, Ts&&... ts) {
     set_option(session, CPR_FWD(ts)...); //递归调用
 }
 ```
+* std::ref
+std::ref 使用和引用一样，但实际上它是存储的对象的指针。std::ref 返回的是std::reference_wrapper，它和普通指针的区别就是使用上和引用一样。  
 
 
 #### rocksdb notes:
@@ -556,6 +559,7 @@ close 函数只是把套接字引用计数减 1，未必会立即关闭连接，
 tcp_tw_reuse 主要是用于连接的发起方，开启后time wait 状态经过1s 之后就可以被重用。相当于缩短了time wait的时间，原本一般为2 分钟。  
 SO_REUSEADDR 是用户态的设置，是用户态告诉内核假如端口被占用，但是还处于time wait状态，可以被重用，但是如果处于其他状态依然会返回address in use的错误。而且这个设置要放在bind 之前设置才有效，不然不会被内核所得知。这个设置主要针对连接的服务方，因此服务器端一般最好设置这个重用： int on = 1; setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));  
 * UDP 连接(connect) 和断开的过程其实就是内核记录端口及地址的映射关系，和删除映射关系的过程，而不像TCP那样发起连接。直到发送数据才会开始将数据发送到记录的映射对端那里。如果不调用connect 也是可以的，只不过没有预先的映射关系，效率会低一点。  
+* [负载均衡相关知识](https://www.cnblogs.com/kevingrace/p/6137881.html)
 
 
 #### 数据结构与算法  
@@ -575,8 +579,8 @@ SO_REUSEADDR 是用户态的设置，是用户态告诉内核假如端口被占�
 * 二叉树是非线性的数据结构，其中满二叉树和完全二叉树特殊一点：满二叉树就是所有节点都是全的，完全二叉树就是除了最后一层节点不全外，其余层的节点都是全的，而且最后一层的叶子节点最后一个必须是至少保留左节点，这样的设计是基于按层顺序保存数据的考量。  
 * 特殊的二叉树- 搜索二叉树：左节点比根节点小，右节点比根节点大，由此当中序遍历后的结果就是一个有序的结果。极端的情况：最差的情况会一直沿着左或者右节点往下，就会退化为链表，访问和查找会退化到O(n); 最理想的情况就是完全二叉树，访问和查找可以优化到 O(logn)，这里涉及的时间复杂度和**树的高度线性相关**。为了能够稳定时间复杂度，就引申出了平衡二叉搜索树，发生节点增加删除时候需要重新进行平衡操作。  
 * 平衡二叉树主要是为了避免树操作性能的退化。平衡二叉树有很多种，包括AVL(最早的平衡二叉树)，红黑树，Treap，slay tree等。其中AVL是极其严格的平衡二叉树，每个节点的左右子树高度差不超过1，因此实际上重新维护平衡会花费更多的时间。平时工程中用到最多的是红黑树，虽然不是很严格的平衡，但是确也是尽量做到近似平衡，并且中间维护的成本比AVL树要低，同时非常稳定，不会出现极端退化的情况，所以红黑树是工程中用到最多的平衡二叉树。  
-
-
+* 四大算法思想：贪心，回溯，分治，动态规划。回溯主要是用递归来实现，其实思想是穷举路线，最后终结的地方总结结果，终结的地方就是前面没有路可以走了。贪心算法其实是动态规划的一个特例，他们都是阶段决策的思路，只不过贪心算法是每个阶段求最优。但是贪心算法有时候并不适用于求全局最优，因为局部最优不能决定全局最优。  
+* 图的应用之一：拓扑排序，可以用于获得依赖关系。  
 
 
 

@@ -73,6 +73,35 @@ void test_utc_equal2time()
 ### string
 * [字符串数字互转参考](https://blog.csdn.net/jiang111_111shan/article/details/80430281)  
 * [除去字节序中0的字符操作](https://joexu88.github.io/2019/05/21/record-method-bytes-to-string-remove-zero/)
+* gb2312 中文url 编码 [可以参考文章](https://www.cnblogs.com/xiaoka/articles/2585189.html)
+```c
+string urlEncGB2312(const char * str)
+{
+    string dd;
+    size_t len = strlen(str);
+    for (size_t i=0;i<len;i++)
+    {
+        if(isalnum((unsigned char)str[i]))
+        {
+            char tempbuff[2];
+            sprintf(tempbuff,"%c",str[i]);
+            dd.append(tempbuff);
+        }
+        else if (isspace((unsigned char)str[i]))
+        {
+            dd.append("+");
+        }
+        else
+        {
+            char tempbuff[4];
+            sprintf(tempbuff,"%%%X%X",((unsigned char*)str)[i] >>4,((unsigned char*)str)[i] %16);
+            dd.append(tempbuff);
+        }
+
+    }
+    return dd;
+}
+```
 
 
 
