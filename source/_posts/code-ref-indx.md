@@ -106,6 +106,10 @@ string urlEncGB2312(const char * str)
 }
 ```
 
+### 打印
+* c++使用PRID64 （[参考文章](http://www.voidcn.com/article/p-cxeykvnw-rc.html)）
+1. 包含头文件：<inttypes.h>
+2. 定义宏：STDC_FORMAT_MACROS，可以通过编译时加-DSTDC_FORMAT_MACROS，或者在包含文件之前定义这个宏。
 
 
 ### 文件IO
