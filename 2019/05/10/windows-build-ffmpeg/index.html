@@ -16,14 +16,15 @@
 <meta property="og:site_name" content="Joe&#39;s Blog">
 <meta property="og:description" content="为了方便调试，故在windows上搭建FFmpeg 的调试环境。 系统编译环境OS: windows7 64bitffmpeg dll build env: msys2[windows环境下的Linux编译环境，使用mingw]; yasm[asm汇编使用]develop env: visual studio 2017">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/img/articles/msys_set_chinese.png">
-<meta property="og:image" content="http://yoursite.com/img/articles/vs_ffmpeg_include_setting.png">
-<meta property="og:image" content="http://yoursite.com/img/articles/vs_ffmpeg_lib_setting.png">
-<meta property="og:updated_time" content="2019-11-05T07:50:40.440Z">
+<meta property="og:image" content="http://yoursite.com/images/mysys2_ch_display_set.png">
+<meta property="og:image" content="http://yoursite.com/images/sdl_lib.png">
+<meta property="og:image" content="http://yoursite.com/images/sdl_set.png">
+<meta property="og:image" content="http://yoursite.com/images/ffmpeg_lib_set.png">
+<meta property="og:updated_time" content="2020-02-24T03:09:23.899Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="windows build ffmpeg">
 <meta name="twitter:description" content="为了方便调试，故在windows上搭建FFmpeg 的调试环境。 系统编译环境OS: windows7 64bitffmpeg dll build env: msys2[windows环境下的Linux编译环境，使用mingw]; yasm[asm汇编使用]develop env: visual studio 2017">
-<meta name="twitter:image" content="http://yoursite.com/img/articles/msys_set_chinese.png">
+<meta name="twitter:image" content="http://yoursite.com/images/mysys2_ch_display_set.png">
   
     <link rel="alternative" href="/atom.xml" title="Joe&#39;s Blog" type="application/atom+xml">
   
@@ -175,7 +176,7 @@
 <h2 id="系统编译环境"><a href="#系统编译环境" class="headerlink" title="系统编译环境"></a>系统编译环境</h2><p><strong>OS</strong>: <u>windows7 64bit</u><br><strong>ffmpeg dll build env</strong>: <u>msys2</u>[windows环境下的Linux编译环境，使用mingw]; <u>yasm</u>[asm汇编使用]<br><strong>develop env</strong>: <u>visual studio 2017</u><br><a id="more"></a></p>
 <p>Notes: msys2 是用来编译FFmpeg的库的，这些库用于visual studio 工程的链接使用，而visual studio并不能直接编译对应的库，因为没有对应的vs工程。  </p>
 <ul>
-<li><p>msys2的准备<br>可以从<a href="https://www.msys2.org/" target="_blank" rel="noopener">msys官网</a>下载。<br>另外这里需要注意编译过程中可能会遇到中文乱码的问题，解决方法是设置中文的encode 类型，位置是窗口的左上角点击图标下拉到options-&gt;<br><img src="/img/articles/msys_set_chinese.png" alt="设置中文编码"></p>
+<li><p>msys2的准备<br>可以从<a href="https://www.msys2.org/" target="_blank" rel="noopener">msys官网</a>下载。<br>另外这里需要注意编译过程中可能会遇到中文乱码的问题，解决方法是设置中文的encode 类型，位置是窗口的左上角点击图标下拉到options-&gt;<br><img src="/images/mysys2_ch_display_set.png" alt="设置中文编码"></p>
 </li>
 <li><p>汇编yasm 的准备<br>从<a href="http://yasm.tortall.net/Download.html" target="_blank" rel="noopener">yasm官网</a>下载，用于asm 编译使用。  </p>
 </li>
@@ -194,8 +195,9 @@
 </ul>
 <p>然后执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure></p>
 <p>然后相应的库安装在vs2017_build_dll目录下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">--bin</span><br><span class="line">  *.lib</span><br><span class="line">  *.dll</span><br><span class="line">  *.exe</span><br><span class="line">--lib</span><br><span class="line">  *.def</span><br><span class="line">--include</span><br><span class="line">--share</span><br></pre></td></tr></table></figure></p>
-<h2 id="visual-studio设置"><a href="#visual-studio设置" class="headerlink" title="visual studio设置"></a>visual studio设置</h2><p>新建一个空的工程 -&gt; 添加实现的cpp 文件，或者直接从FFmpeg的example里面拷贝文件。<br>设置工程：<br><img src="/img/articles/vs_ffmpeg_include_setting.png" alt="include头文件设置"><br>里面设置sdl 是为了减少一些warning的编译结果转换为error。  </p>
-<p><img src="/img/articles/vs_ffmpeg_lib_setting.png" alt="lib库依赖设置"></p>
+<h2 id="编译sdl-库"><a href="#编译sdl-库" class="headerlink" title="编译sdl 库"></a>编译sdl 库</h2><p>先从<a href="http://www.libsdl.org/download-2.0.php" target="_blank" rel="noopener">sdl 官网</a>下载sdl 2.0 代码，目前ffmpeg 用到了2.0 的接口。<br>下载解压后用visual studio 打开 子目录VisualC 底下的工程，然后编译可以产生相应的库，注意是32位还是64位的就行。<br>编译的结果默认放在 VisualC\Win32\Debug\ 底下：<br><img src="/images/sdl_lib.png" alt="SDL 库"></p>
+<h2 id="visual-studio设置"><a href="#visual-studio设置" class="headerlink" title="visual studio设置"></a>visual studio设置</h2><p>新建一个空的工程 -&gt; 添加实现的cpp 文件，或者直接从FFmpeg的example里面拷贝文件。<br>设置工程：<br><img src="/images/sdl_set.png" alt="SDL 设置"><br>里面设置sdl 是为了减少一些warning的编译结果转换为error。  </p>
+<p><img src="/images/ffmpeg_lib_set.png" alt="lib库依赖设置"></p>
 <p>然后就可以进行调试了，但是还需要最后一步就是将编译好的库拷贝到visual studio工程的对象生成目录下，一般是Debug目录，因为运行和debug都需要用到。  </p>
 
       
@@ -366,7 +368,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 Joe Xu
+    		&copy; 2020 Joe Xu
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -449,6 +451,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">notes</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">c++</a>
               </li>
              
@@ -457,23 +463,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">c</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">cmake</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">notes</a>
+                <a href="javascript:void(0)" class="js-tag color2">c</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">time</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">string</a>
+                <a href="javascript:void(0)" class="js-tag color3">reading</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -481,7 +479,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">reading</a>
+                <a href="javascript:void(0)" class="js-tag color2">string</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">time</a>
               </li>
              
               <li class="article-tag-list-item">
